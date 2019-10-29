@@ -8,7 +8,7 @@ define("CORE", ROOT . "/vendor/market/core");
 define("LIBS", ROOT . "/vendor/market/core/libs");
 define("CACHE", ROOT . "/tmp/cache");
 define("CONFIG", ROOT . "/config");
-define("LAYOUT", "default");
+define("LAYOUT", "luxury_watches");
 
 $protocol = isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] != "off" ? "https://" : "http://";
 $app_path = $protocol . $_SERVER['HTTP_HOST'] . $_SERVER['PHP_SELF'];		//Полный путь к индекснему файлу public/index.php
