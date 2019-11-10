@@ -3,9 +3,7 @@
 
 namespace app\controllers;
 
-use \app\controllers\AppController;
 use market\App;
-use market\Cache;
 
 class MainController extends AppController
 {
