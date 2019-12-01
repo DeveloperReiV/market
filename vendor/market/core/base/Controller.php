@@ -45,4 +45,14 @@ abstract class Controller
 		$viewObject = new View($this->route, $this->layout, $this->view, $this->meta);
 		$viewObject->render($this->data);
 	}
+
+	public function isAjax(){
+		return isset($_SERVER['HTTP_X_REQUESTED_WITH']) && $_SERVER['HTTP_X_REQUESTED_WITH'] === "XMLHttpRequest";
+	}
+
+	public function loadView($view, $vars = []){
+		extract($vars);
+		require APP . "/views/{$this->prefix}{$this->controller}/{$view}.php";
+		die;
+	}
 }

@@ -3071,4 +3071,13 @@ ul.tag-men {
 .product-one > .product-left{
 	margin-bottom: 20px;
 }
+
+#cart table img{
+	height: 50px
+}
+
+.del-item{
+	cursor: pointer;
+}
 /*new style*/
+

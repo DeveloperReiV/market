@@ -15,7 +15,7 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 	<link href="/css/bootstrap.css" rel="stylesheet" type="text/css" media="all" />
 	<link href="/megamenu/css/ionicons.min.css" rel="stylesheet" type="text/css" media="all" />
 	<link href="/megamenu/css/style.css" rel="stylesheet" type="text/css" media="all" />
-
+	<link rel="stylesheet" href="css/flexslider.css" type="text/css" media="screen" />
 	<!--theme-style-->
 	<link href="/css/style.css" rel="stylesheet" type="text/css" media="all" />
 	<!--//theme-style-->
@@ -45,12 +45,16 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 			</div>
 			<div class="col-md-6 top-header-left">
 				<div class="cart box_1">
-					<a href="checkout.html">
+					<a href="cart/show" id="showCart">
 						<div class="total">
-							<span class="simpleCart_total"></span></div>
-						<img src="/images/cart-1.png" alt="" />
+							<img src="/images/cart-1.png" alt="" />
+							<?php if(!empty($_SESSION['cart'])): ?>
+								<span class="simpleCart_total"><?=$_SESSION['cart.currency']['symbol_left'] . $_SESSION['cart.sum'] . $_SESSION['cart.currency']['symbol_right']?></span>
+							<?php else: ?>
+								<span class="simpleCart_total">Корзина пуста</span>
+							<?php endif; ?>
+						</div>
 					</a>
-					<p><a href="javascript:;" class="simpleCart_empty">Empty Cart</a></p>
 					<div class="clearfix"> </div>
 				</div>
 			</div>
@@ -59,11 +63,13 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 	</div>
 </div>
 <!--top-header-->
+
 <!--start-logo-->
 <div class="logo">
 	<a href="<?=PATH;?>"><h1>Luxury Watches</h1></a>
 </div>
 <!--start-logo-->
+
 <!--bottom-header-->
 <div class="header-bottom">
 	<div class="container">
@@ -140,6 +146,7 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 	</div>
 </div>
 <!--information-end-->
+
 <!--footer-starts-->
 <div class="footer">
 	<div class="container">
@@ -159,11 +166,42 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 </div>
 <!--footer-end-->
 
+<div class="modal fade" tabindex="-1" id="cart" role="dialog">
+	<div class="modal-dialog modal-lg" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+				<h4 class="modal-title">Корзина</h4>
+			</div>
+			<div class="modal-body">
+
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-default" data-dismiss="modal">Продолжить покупки</button>
+				<a href="cart/view" type="button" class="btn btn-primary">Оформить заказ</a>
+				<button type="button" class="btn btn-danger" onclick="clearCart()">Очистить корзину</button>
+			</div>
+		</div><!-- /.modal-content -->
+	</div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+<?php $curr = \market\App::$app->getProperty('currency'); ?>
+<script>
+	var path = '<?=PATH;?>';
+	var cource = '<?=$curr['value'];?>';
+	var symbolLeft = '<?=$curr['symbol_left'];?>';
+	var symbolRight = '<?=$curr['symbol_right'];?>';
+</script>
+
+
 <script src="/js/jquery-1.11.0.min.js"></script>
-<script src="/js/simpleCart.min.js"> </script>
+<script src="/js/bootstrap.min.js"></script>
 <script src="/js/jquery.easydropdown.js"></script>
 <script src="/js/responsiveslides.min.js"></script>
 <script src="/megamenu/js/megamenu.js"></script>
+<script src="/js/imagezoom.js"></script>
+<script src="/js/jquery.flexslider.js" defer></script>
+<script src="/js/jquery.easydropdown.js"></script>
 <script src="/js/main.js"></script>
 
 <!--Slider-Starts-Here-->
@@ -189,7 +227,45 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 </script>
 <!--End-slider-script-->
 
+<script>
+	// Can also be used with $(document).ready()
+	$(window).load(function() {
+		$('.flexslider').flexslider({
+			animation: "slide",
+			controlNav: "thumbnails"
+		});
+	});
+</script>
+
+<script type="text/javascript">
+	$(function() {
+
+		var menu_ul = $('.menu_drop > li > ul'),
+			menu_a  = $('.menu_drop > li > a');
+
+		menu_ul.hide();
+
+		menu_a.click(function(e) {
+			e.preventDefault();
+			if(!$(this).hasClass('active')) {
+				menu_a.removeClass('active');
+				menu_ul.filter(':visible').slideUp('normal');
+				$(this).addClass('active').next().stop(true,true).slideDown('normal');
+			} else {
+				$(this).removeClass('active');
+				$(this).next().stop(true,true).slideUp('normal');
+			}
+		});
+
+	});
+</script>
+
 <script type="application/x-javascript"> addEventListener("load", function() { setTimeout(hideURLbar, 0); }, false); function hideURLbar(){ window.scrollTo(0,1); } </script>
+
+<?php
+$logs = \R::getDatabaseAdapter()->getDatabase()->getLogger();
+debug($logs->grep('SELECT'));
+?>
 
 </body>
 </html>

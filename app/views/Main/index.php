@@ -55,7 +55,7 @@
 							<h3><a href="product/<?=$hit->alias;?>"><?=$hit->title;?></a></h3>
 							<p>Explore Now</p>
 							<h4>
-								<a class="add-to-cart-link" href="cart/add?=<?=$hit->id;?>"><i></i></a>
+								<a class="add-to-cart-link" href="cart/add?=<?=$hit->id;?>" data-id="<?=$hit->id;?>"><i></i></a>
 								<span class=" item_price"><?=$curr['symbol_left'];?><?=$hit->price * $curr['value'];?><?=$curr['symbol_right'];?></span>
 								<?php if($hit->old_price): ?>
 									<small><del><?=$curr['symbol_left'];?><?=$hit->old_price * $curr['value'];?><?=$curr['symbol_right'];?></del></small>
